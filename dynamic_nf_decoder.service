@@ -1,0 +1,17 @@
+# Sample basic systemd service file to start the parser
+[Unit]
+Description=Dynamic NetFlow Decoder Service
+After=network.target
+
+[Service]
+# ExecStart=/usr/local/bin/dynamic_nf_decoder -d /var/log/dynamic_nf_decoder/debug.log -o /var/log/dynamic_nf_decoder/data.log -c /etc/dynamic_nf_decoder/templates.json -cpu 4
+ExecStart=/usr/local/bin/dynamic_nf_decoder -o /var/log/dynamic_nf_decoder/data.log -c /etc/dynamic_nf_decoder/templates.json -cpu 4
+WorkingDirectory=/var/log/dynamic_nf_decoder
+User=nfdecoder
+Group=nfdecoder
+Restart=always
+RestartSec=10
+Environment=GOMAXPROCS=4
+
+[Install]
+WantedBy=multi-user.target
